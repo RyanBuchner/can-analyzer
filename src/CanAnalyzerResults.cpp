@@ -47,7 +47,7 @@ std::stringstream conversion (char* in){
     std::stringstream out;
     out<<in;
     std::string binary;
-    binary=GetBinaryStringFromHexString (out);
+    binary=GetBinaryStringFromHexString (out.str());
     std::string page=binary.substr(24,8);
     std::string message=binary.substr(17,7);
     std::string device=binary.substr(8,8);
