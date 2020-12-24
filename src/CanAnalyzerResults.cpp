@@ -7,6 +7,71 @@
 
 #pragma warning(disable: 4800) //warning C4800: 'U64' : forcing value to bool 'true' or 'false' (performance warning)
 
+std::string GetBinaryStringFromHexString (std::string sHex){
+    std::string sReturn = "";
+    for (int i = 0; i < sHex.length (); ++i)
+    {
+        switch (sHex [i])
+        {
+            case '0': sReturn.append ("0000"); break;
+            case '1': sReturn.append ("0001"); break;
+            case '2': sReturn.append ("0010"); break;
+            case '3': sReturn.append ("0011"); break;
+            case '4': sReturn.append ("0100"); break;
+            case '5': sReturn.append ("0101"); break;
+            case '6': sReturn.append ("0110"); break;
+            case '7': sReturn.append ("0111"); break;
+            case '8': sReturn.append ("1000"); break;
+            case '9': sReturn.append ("1001"); break;
+            case 'a': sReturn.append ("1010"); break;
+            case 'b': sReturn.append ("1011"); break;
+            case 'c': sReturn.append ("1100"); break;
+            case 'd': sReturn.append ("1101"); break;
+            case 'e': sReturn.append ("1110"); break;
+            case 'f': sReturn.append ("1111"); break;
+        }
+    }
+    return sReturn;
+}
+
+std::string MessageType(std::string input){
+    std::string output;
+    switch (input){
+        case "00": output="RD"; break;
+        case "01": output="WR"; break;
+        case "10": output="RR"; break;
+        case "11": output="AK"; break;
+        }
+    return output;
+    }
+}
+
+std::stringstream conversion (char* in){
+    std::stringstream out;
+    out<<in;
+    std::string binary;
+    binary=GetBinaryStringFromHexString (out);
+    std::string page=binary.substr(24,8);
+    std::string message=binary.substr(17,7);
+    std::string device=binary.substr(8,8);
+    std::string type=MessageType(binary.substr(6,2));
+    std::string I;
+    if (binary.substr()=="1"){
+        I="I"
+    } else {
+        I="B"
+    }
+    std::stringstream outstring;
+    outstring<<type;
+    outstring<<"D";
+    outstring<<std::hex<<device;
+    outstring<<I;
+    outstring<<"M";
+    outstring<<std::hex<<message;
+    outstring<<"P";
+    outstring<<std::hex<<page;
+}
+
 CanAnalyzerResults::CanAnalyzerResults( CanAnalyzer* analyzer, CanAnalyzerSettings* settings )
 :	AnalyzerResults(),
 	mSettings( settings ),
@@ -36,6 +101,8 @@ void CanAnalyzerResults::GenerateBubbleText( U64 frame_index, Channel& /*channel
 			else
 				AnalyzerHelpers::GetNumberString( frame.mData1, display_base, 32, number_str, 128 );
 
+            number_str=conversion (number_str).str()
+
 			std::stringstream ss;
 
 			AddResultString( "Id" );
@@ -47,6 +114,8 @@ void CanAnalyzerResults::GenerateBubbleText( U64 frame_index, Channel& /*channel
             ss << "Identifier: " << number_str;
 			AddResultString( ss.str().c_str() );
 			ss.str("");
+
+
 
 			if( frame.HasFlag( REMOTE_FRAME ) == false )
 			{
