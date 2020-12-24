@@ -76,6 +76,32 @@ std::stringstream conversion (char* in){
     return outstring;
 }
 
+std::stringstream shortconversion (char* in){
+    std::stringstream out;
+    out<<in;
+    std::string binary;
+    binary=GetBinaryStringFromHexString (out.str());
+    std::string page=binary.substr(24,8);
+    std::string message=binary.substr(17,7);
+    std::string device=binary.substr(8,8);
+    std::string type=MessageType(binary.substr(6,2));
+    std::string I;
+    if (binary.substr()=="1"){
+        I="I";
+    } else {
+        I="B";
+    }
+    std::stringstream outstring;
+    outstring<<type;
+    outstring<<" D: ";
+    std::bitset<8> set(device);
+    outstring<<std::setfill('0')<<std::setw(2)<<std::hex<<set.to_ulong();
+    outstring<<" M: ";
+    std::bitset<7> set2(message);
+    outstring<<std::setfill('0')<<std::setw(2)<<std::hex<<set2.to_ulong();
+    return outstring;
+}
+
 CanAnalyzerResults::CanAnalyzerResults( CanAnalyzer* analyzer, CanAnalyzerSettings* settings )
 :	AnalyzerResults(),
 	mSettings( settings ),
@@ -105,22 +131,22 @@ void CanAnalyzerResults::GenerateBubbleText( U64 frame_index, Channel& /*channel
 			else
 				AnalyzerHelpers::GetNumberString( frame.mData1, display_base, 32, numbers, 128 );
 
-            std::stringstream number=conversion (numbers);
+            std::stringstream number=shortconversion (numbers);
             std::string number_str = number.str();
 
 			std::stringstream ss;
 
 			AddResultString( "Id" );
 
-			ss << number_str;
-			AddResultString( ss.str().c_str() );
-			ss.str("");
-
             ss << number_str;
 			AddResultString( ss.str().c_str() );
 			ss.str("");
 
-
+            number=shortconversion (numbers);
+            number_str = number.str();
+            ss << number_str;
+            AddResultString( ss.str().c_str() );
+            ss.str("");
 
 			if( frame.HasFlag( REMOTE_FRAME ) == false )
 			{
