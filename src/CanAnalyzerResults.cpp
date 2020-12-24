@@ -4,6 +4,7 @@
 #include "CanAnalyzerSettings.h"
 #include <iostream>
 #include <sstream>
+#include <bitset>
 
 #pragma warning(disable: 4800) //warning C4800: 'U64' : forcing value to bool 'true' or 'false' (performance warning)
 
@@ -60,13 +61,17 @@ std::stringstream conversion (char* in){
     }
     std::stringstream outstring;
     outstring<<type;
-    outstring<<"D";
-    outstring<<std::hex<<device;
+    outstring<<" D: ";
+    std::bitset<8> set(device);
+    outstring<<std::hex<<set.to_ulong();
+    outstring<<" ";
     outstring<<I;
-    outstring<<"M";
-    outstring<<std::hex<<message;
-    outstring<<"P";
-    outstring<<std::hex<<page;
+    outstring<<" M: ";
+    std::bitset<7> set2(message);
+    outstring<<std::hex<<set2.to_ulong();
+    outstring<<" P: ";
+    std::bitset<8> set3(page);
+    outstring<<std::hex<<set3.to_ulong();
     return outstring;
 }
 
