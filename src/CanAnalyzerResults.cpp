@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include <bitset>
+#include <iomanip>
 
 #pragma warning(disable: 4800) //warning C4800: 'U64' : forcing value to bool 'true' or 'false' (performance warning)
 
@@ -63,15 +64,15 @@ std::stringstream conversion (char* in){
     outstring<<type;
     outstring<<" D: ";
     std::bitset<8> set(device);
-    outstring<<std::hex<<set.to_ulong();
+    outstring<<std::setfill('0')<<std::setw(2)<<std::hex<<set.to_ulong();
     outstring<<" ";
     outstring<<I;
     outstring<<" M: ";
     std::bitset<7> set2(message);
-    outstring<<std::hex<<set2.to_ulong();
+    outstring<<std::setfill('0')<<std::setw(2)<<std::hex<<set2.to_ulong();
     outstring<<" P: ";
     std::bitset<8> set3(page);
-    outstring<<std::hex<<set3.to_ulong();
+    outstring<<std::setfill('0')<<std::setw(2)<<std::hex<<set3.to_ulong();
     return outstring;
 }
 
@@ -111,11 +112,11 @@ void CanAnalyzerResults::GenerateBubbleText( U64 frame_index, Channel& /*channel
 
 			AddResultString( "Id" );
 
-			ss << "Id: " << number_str;
+			ss << number_str;
 			AddResultString( ss.str().c_str() );
 			ss.str("");
 
-            ss << "Identifier: " << number_str;
+            ss << number_str;
 			AddResultString( ss.str().c_str() );
 			ss.str("");
 
@@ -126,7 +127,7 @@ void CanAnalyzerResults::GenerateBubbleText( U64 frame_index, Channel& /*channel
 				if( frame.mType == IdentifierField )
 					ss << "Standard CAN Identifier: " << number_str;
 				else
-					ss << "Extended CAN Identifier: " << number_str;
+					ss <<number_str;
 			}else
 			{
 				if( frame.mType == IdentifierField )
