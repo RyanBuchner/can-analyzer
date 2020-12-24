@@ -142,7 +142,7 @@ void CanAnalyzerResults::GenerateBubbleText( U64 frame_index, Channel& /*channel
 			AddResultString( ss.str().c_str() );
 			ss.str("");
 
-            number=shortconversion (numbers);
+            number= conversion (numbers);
             number_str = number.str();
             ss << number_str;
             AddResultString( ss.str().c_str() );
