@@ -54,9 +54,9 @@ std::stringstream conversion (char* in){
     std::string type=MessageType(binary.substr(6,2));
     std::string I;
     if (binary.substr()=="1"){
-        I="I"
+        I="I";
     } else {
-        I="B"
+        I="B";
     }
     std::stringstream outstring;
     outstring<<type;
@@ -98,7 +98,8 @@ void CanAnalyzerResults::GenerateBubbleText( U64 frame_index, Channel& /*channel
 			else
 				AnalyzerHelpers::GetNumberString( frame.mData1, display_base, 32, numbers, 128 );
 
-            std::stringstream number_str=conversion (numbers).str();
+            std::stringstream number=conversion (numbers);
+            std::string number_str = number.str();
 
 			std::stringstream ss;
 
