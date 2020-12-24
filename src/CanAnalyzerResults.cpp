@@ -9,7 +9,7 @@
 
 std::string GetBinaryStringFromHexString (std::string sHex){
     std::string sReturn = "";
-    for (int i = 0; i < sHex.length (); ++i)
+    for (int i = 2; i < sHex.length (); ++i)
     {
         switch (sHex [i])
         {
@@ -36,14 +36,11 @@ std::string GetBinaryStringFromHexString (std::string sHex){
 
 std::string MessageType(std::string input){
     std::string output;
-    switch (input){
-        case "00": output="RD"; break;
-        case "01": output="WR"; break;
-        case "10": output="RR"; break;
-        case "11": output="AK"; break;
-        }
+    if (input=="00"){output="RD";}
+    else if (input=="01"){output="WR";}
+    else if (input=="10"){output="RR";}
+    else if (input=="11"){output="AK";}
     return output;
-    }
 }
 
 std::stringstream conversion (char* in){
@@ -94,14 +91,14 @@ void CanAnalyzerResults::GenerateBubbleText( U64 frame_index, Channel& /*channel
 	case IdentifierField:
 	case IdentifierFieldEx:
 		{
-			char number_str[128];
+			char numbers[128];
 
 			if( frame.mType == IdentifierField )
-				AnalyzerHelpers::GetNumberString( frame.mData1, display_base, 12, number_str, 128 );
+				AnalyzerHelpers::GetNumberString( frame.mData1, display_base, 12, numbers, 128 );
 			else
-				AnalyzerHelpers::GetNumberString( frame.mData1, display_base, 32, number_str, 128 );
+				AnalyzerHelpers::GetNumberString( frame.mData1, display_base, 32, numbers, 128 );
 
-            number_str=conversion (number_str).str()
+            std::stringstream number_str=conversion (numbers).str();
 
 			std::stringstream ss;
 
