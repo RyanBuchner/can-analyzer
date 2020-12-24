@@ -67,6 +67,7 @@ std::stringstream conversion (char* in){
     outstring<<std::hex<<message;
     outstring<<"P";
     outstring<<std::hex<<page;
+    return outstring;
 }
 
 CanAnalyzerResults::CanAnalyzerResults( CanAnalyzer* analyzer, CanAnalyzerSettings* settings )
