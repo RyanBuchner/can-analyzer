@@ -25,12 +25,12 @@ std::string GetBinaryStringFromHexString (std::string sHex){
             case '7': sReturn.append ("0111"); break;
             case '8': sReturn.append ("1000"); break;
             case '9': sReturn.append ("1001"); break;
-            case 'a': sReturn.append ("1010"); break;
-            case 'b': sReturn.append ("1011"); break;
-            case 'c': sReturn.append ("1100"); break;
-            case 'd': sReturn.append ("1101"); break;
-            case 'e': sReturn.append ("1110"); break;
-            case 'f': sReturn.append ("1111"); break;
+            case 'A': sReturn.append ("1010"); break;
+            case 'B': sReturn.append ("1011"); break;
+            case 'C': sReturn.append ("1100"); break;
+            case 'D': sReturn.append ("1101"); break;
+            case 'E': sReturn.append ("1110"); break;
+            case 'F': sReturn.append ("1111"); break;
         }
     }
     return sReturn;
@@ -55,7 +55,7 @@ std::stringstream conversion (char* in){
     std::string device=binary.substr(8,8);
     std::string type=MessageType(binary.substr(6,2));
     std::string I;
-    if (binary.substr()=="1"){
+    if (binary.substr(16,1)=="1"){
         I="I";
     } else {
         I="B";
@@ -86,7 +86,7 @@ std::stringstream shortconversion (char* in){
     std::string device=binary.substr(8,8);
     std::string type=MessageType(binary.substr(6,2));
     std::string I;
-    if (binary.substr()=="1"){
+    if (binary.substr(16,1)=="1"){
         I="I";
     } else {
         I="B";
