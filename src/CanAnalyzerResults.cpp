@@ -36,7 +36,7 @@ std::string GetBinaryStringFromHexString (std::string sHex){
     return sReturn;
 }
 
-std::string MessageType(std::string input){
+std::string MessageType(const std::string input){
     std::string output;
     if (input=="00"){output="RD";}
     else if (input=="01"){output="WR";}
@@ -126,9 +126,22 @@ void CanAnalyzerResults::GenerateBubbleText( U64 frame_index, Channel& /*channel
 		{
 			char numbers[128];
 
-			if( frame.mType == IdentifierField )
+			if( frame.mType == IdentifierField ){
 				AnalyzerHelpers::GetNumberString( frame.mData1, display_base, 12, numbers, 128 );
-			else
+                std::stringstream ss;
+
+                AddResultString( "Id" );
+
+                ss << "Id: " << numbers;
+                AddResultString( ss.str().c_str() );
+                ss.str("");
+
+                ss << "Identifier: " << numbers;
+                AddResultString( ss.str().c_str() );
+                ss.str("");
+
+			}
+			else{
 				AnalyzerHelpers::GetNumberString( frame.mData1, display_base, 32, numbers, 128 );
 
             std::stringstream number=shortconversion (numbers);
@@ -146,7 +159,7 @@ void CanAnalyzerResults::GenerateBubbleText( U64 frame_index, Channel& /*channel
             number_str = number.str();
             ss << number_str;
             AddResultString( ss.str().c_str() );
-            ss.str("");
+            ss.str("");}
 
 			if( frame.HasFlag( REMOTE_FRAME ) == false )
 			{
