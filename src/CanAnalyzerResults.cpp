@@ -140,6 +140,15 @@ void CanAnalyzerResults::GenerateBubbleText( U64 frame_index, Channel& /*channel
                 AddResultString( ss.str().c_str() );
                 ss.str("");
 
+                if( frame.HasFlag( REMOTE_FRAME ) == false )
+                {
+                    ss << "Standard CAN Identifier: " << numbers;
+                }else
+                {
+                        ss << "Standard CAN Identifier: " << numbers << " (RTR)";
+                }
+
+                AddResultString( ss.str().c_str() );
 			}
 			else{
 				AnalyzerHelpers::GetNumberString( frame.mData1, display_base, 32, numbers, 128 );
@@ -159,23 +168,17 @@ void CanAnalyzerResults::GenerateBubbleText( U64 frame_index, Channel& /*channel
             number_str = number.str();
             ss << number_str;
             AddResultString( ss.str().c_str() );
-            ss.str("");}
+            ss.str("");
 
 			if( frame.HasFlag( REMOTE_FRAME ) == false )
 			{
-				if( frame.mType == IdentifierField )
-					ss << "Standard CAN Identifier: " << number_str;
-				else
 					ss <<number_str;
 			}else
 			{
-				if( frame.mType == IdentifierField )
-					ss << "Standard CAN Identifier: " << number_str << " (RTR)";
-				else
 					ss << "Extended CAN Identifier: " << number_str << " (RTR)";
 			}
 
-			AddResultString( ss.str().c_str() );
+			AddResultString( ss.str().c_str() );}
 		}
 		break;
 	case ControlField:
