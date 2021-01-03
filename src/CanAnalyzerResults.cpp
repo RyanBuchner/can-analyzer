@@ -9,6 +9,153 @@
 
 #pragma warning(disable: 4800) //warning C4800: 'U64' : forcing value to bool 'true' or 'false' (performance warning)
 
+std::string get_message (std::string hex_msgID){
+    if (hex_msgID=="00") {
+        return "DEV_POS";
+    } else if (hex_msgID=="01"){
+        return "DEV_INF";
+    } else if (hex_msgID=="02"){
+        return "FLSH_CFG";
+    } else if (hex_msgID=="03"){
+        return "UID";
+    } else if (hex_msgID=="04"){
+        return "DEF_AKA";
+    } else if (hex_msgID=="05"){
+        return "USR_AKA";
+    } else if (hex_msgID=="06"){
+        return "STATUS";
+    } else if (hex_msgID=="0a"){
+        return "PAFE_DEF";
+    } else if (hex_msgID=="0d"){
+        return "DEV_INIT";
+    } else if (hex_msgID=="10"){
+        return "CTRL_WRD";
+    } else if (hex_msgID=="11"){
+        return "ADD_AKA";
+    } else if (hex_msgID=="12"){
+        return "REM_AKA";
+    } else if (hex_msgID=="13"){
+        return "AS_CTRL";
+    } else if (hex_msgID=="16"){
+        return "TMP_RANG";
+    } else if (hex_msgID=="1b"){
+        return "KFACT";
+    } else if (hex_msgID=="1c"){
+        return "HSS_CTRL";
+    } else if (hex_msgID=="1e"){
+        return "MOT_CTRL";
+    } else if (hex_msgID=="23"){
+        return "SCALE";
+    } else if (hex_msgID=="26"){
+        return "UNP_CTRL";
+    } else if (hex_msgID=="27"){
+        return "P_CTRL";
+    } else if (hex_msgID=="2a"){
+        return "P_R_CTRL";
+    } else if (hex_msgID=="2c"){
+        return "PNP_CTRL";
+    } else if (hex_msgID=="2d"){
+        return "PNP_DATA";
+    } else if (hex_msgID=="2f"){
+        return "TOUCH";
+    } else if (hex_msgID=="30"){
+        return "FILL_BUF";
+    } else if (hex_msgID=="31"){
+        return "ACC_BUF";
+    } else if (hex_msgID=="33"){
+        return "PG_2_BUF";
+    } else if (hex_msgID=="34"){
+        return "BUF_2_PG";
+    } else if (hex_msgID=="35"){
+        return "CKSUM";
+    } else if (hex_msgID=="37"){
+        return "STRT_PRG";
+    } else if (hex_msgID=="3a"){
+        return "CLS_CTRL";
+    } else if (hex_msgID=="40"){
+        return "EVENT";
+    } else if (hex_msgID=="41"){
+        return "LOOP";
+    } else if (hex_msgID=="42"){
+        return "ERROR";
+    } else if (hex_msgID=="44"){
+        return "PRIM_RUN";
+    } else if (hex_msgID=="45"){
+        return "UNPRIME";
+    } else if (hex_msgID=="46"){
+        return "PRIME";
+    } else if (hex_msgID=="47"){
+        return "RUN";
+    } else if (hex_msgID=="49"){
+        return "DEV_CTRL";
+    } else if (hex_msgID=="4a"){
+        return "PWR_ONLY";
+    } else if (hex_msgID=="4b"){
+        return "STEP";
+    } else if (hex_msgID=="4c"){
+        return "STRING";
+    } else if (hex_msgID=="4c"){
+        return "DISPLAY";
+    } else {
+        return "UH-OH";
+    }
+}
+
+std::string get_page_list (std::string hex_pageList){
+    if (hex_pageList=="00") {
+        return "DEV_ANN";
+    } else if (hex_pageList=="01"){
+        return "BL_ANN";
+    } else if (hex_pageList=="02"){
+        return "HEARTBT";
+    } else if (hex_pageList=="03"){
+        return "Z_MOVE";
+    } else if (hex_pageList=="04"){
+        return "PR_COMP";
+    } else if (hex_pageList=="05"){
+        return "LIM_ON";
+    } else if (hex_pageList=="06"){
+        return "LIM_OFF";
+    } else if (hex_pageList=="07"){
+        return "PROBE";
+    } else if (hex_pageList=="08"){
+        return "PNP_DOWN";
+    } else if (hex_pageList=="09"){
+        return "PNP_UP";
+    } else if (hex_pageList=="0a"){
+        return "PNP_CMP";
+    } else if (hex_pageList=="0b"){
+        return "PNP_BLK";
+    } else if (hex_pageList=="0c"){
+        return "PROB_ARM";
+    } else if (hex_pageList=="0d"){
+        return "PROB_CTC";
+    } else if (hex_pageList=="0e"){
+        return "CO2_WDG";
+    } else if (hex_pageList=="0f"){
+        return "CO2_PRC";
+    } else if (hex_pageList=="10"){
+        return "MOT_LIM1";
+    } else if (hex_pageList=="11"){
+        return "MOT_LIM2";
+    } else if (hex_pageList=="12"){
+        return "CAL_PASS";
+    } else if (hex_pageList=="13"){
+        return "CAL_FAIL";
+    } else if (hex_pageList=="14"){
+        return "SAV_PASS";
+    } else if (hex_pageList=="15"){
+        return "SAV_FAIL";
+    } else if (hex_pageList=="16"){
+        return "F0RC_CAL";
+    } else if (hex_pageList=="17"){
+        return "BAD_CAL";
+    } else {
+        return "UH-OH";
+    }
+}
+
+
 std::string GetBinaryStringFromHexString (std::string sHex){
     std::string sReturn = "";
     for (int i = 2; i < sHex.length (); ++i)
@@ -45,62 +192,36 @@ std::string MessageType(const std::string input){
     return output;
 }
 
-std::stringstream conversion (char* in){
-    std::stringstream out;
-    out<<in;
-    std::string binary;
-    binary=GetBinaryStringFromHexString (out.str());
-    std::string page=binary.substr(24,8);
-    std::string message=binary.substr(17,7);
-    std::string device=binary.substr(8,8);
-    std::string type=MessageType(binary.substr(6,2));
-    std::string I;
-    if (binary.substr(16,1)=="1"){
-        I="I";
-    } else {
-        I="B";
-    }
-    std::stringstream outstring;
-    outstring<<type;
-    outstring<<" D: ";
-    std::bitset<8> set(device);
-    outstring<<std::setfill('0')<<std::setw(2)<<std::hex<<set.to_ulong();
-    outstring<<" ";
-    outstring<<I;
-    outstring<<" M: ";
-    std::bitset<7> set2(message);
-    outstring<<std::setfill('0')<<std::setw(2)<<std::hex<<set2.to_ulong();
-    outstring<<" P: ";
-    std::bitset<8> set3(page);
-    outstring<<std::setfill('0')<<std::setw(2)<<std::hex<<set3.to_ulong();
-    return outstring;
-}
-
-std::stringstream shortconversion (char* in){
-    std::stringstream out;
-    out<<in;
-    std::string binary;
-    binary=GetBinaryStringFromHexString (out.str());
-    std::string page=binary.substr(24,8);
-    std::string message=binary.substr(17,7);
-    std::string device=binary.substr(8,8);
-    std::string type=MessageType(binary.substr(6,2));
-    std::string I;
-    if (binary.substr(16,1)=="1"){
-        I="I";
-    } else {
-        I="B";
-    }
-    std::stringstream outstring;
-    outstring<<type;
-    outstring<<" D: ";
-    std::bitset<8> set(device);
-    outstring<<std::setfill('0')<<std::setw(2)<<std::hex<<set.to_ulong();
-    outstring<<" M: ";
-    std::bitset<7> set2(message);
-    outstring<<std::setfill('0')<<std::setw(2)<<std::hex<<set2.to_ulong();
-    return outstring;
-}
+//std::stringstream conversion (char* in){
+//    std::stringstream out;
+//    out<<in;
+//    std::string binary;
+//    binary=GetBinaryStringFromHexString (out.str());
+//    std::string page=binary.substr(24,8);
+//    std::string message=binary.substr(17,7);
+//    std::string device=binary.substr(8,8);
+//    std::string type=MessageType(binary.substr(6,2));
+//    std::string I;
+//    if (binary.substr(16,1)=="1"){
+//        I="I";
+//    } else {
+//        I="B";
+//    }
+//    std::stringstream outstring;
+//    outstring<<type;
+//    outstring<<" D: ";
+//    std::bitset<8> set(device);
+//    outstring<<std::setfill('0')<<std::setw(2)<<std::hex<<set.to_ulong();
+//    outstring<<" ";
+//    outstring<<I;
+//    outstring<<" M: ";
+//    std::bitset<7> set2(message);
+//    outstring<<std::setfill('0')<<std::setw(2)<<std::hex<<set2.to_ulong();
+//    outstring<<" P: ";
+//    std::bitset<8> set3(page);
+//    outstring<<std::setfill('0')<<std::setw(2)<<std::hex<<set3.to_ulong();
+//    return outstring;
+//}
 
 CanAnalyzerResults::CanAnalyzerResults( CanAnalyzer* analyzer, CanAnalyzerSettings* settings )
 :	AnalyzerResults(),
@@ -153,29 +274,68 @@ void CanAnalyzerResults::GenerateBubbleText( U64 frame_index, Channel& /*channel
 			else{
 				AnalyzerHelpers::GetNumberString( frame.mData1, display_base, 32, numbers, 128 );
 
-            std::stringstream number=shortconversion (numbers);
-            std::string number_str = number.str();
+
+                std::stringstream out;
+                out<<numbers;
+                std::string binary;
+                binary=GetBinaryStringFromHexString (out.str());
+                std::string message=binary.substr(17,7);
+                std::string type=MessageType(binary.substr(6,2));
+                std::string I;
+                if (binary.substr(16,1)=="1"){
+                    I="I";
+                } else {
+                    I="B";
+                }
+                std::stringstream M;
+                std::bitset<7> set2(message);
+                M<<std::setfill('0')<<std::setw(2)<<std::hex<<set2.to_ulong();
+                string P;
+                P=out.str().substr(8,2);
+
+                std::stringstream short_txt;
+                short_txt<<type;
+                short_txt<<" D: "<<out.str().substr(4,2)<<" ";
+                short_txt<<" M: "<<M.str();
+
+                std::stringstream medium_txt;
+                medium_txt<<type;
+                medium_txt<<" D: "<<out.str().substr(4,2)<<" ";
+                medium_txt<<I;
+                medium_txt<<" M: "<<M.str();
+                medium_txt<<" P: "<<P;
+
+                TT D:## M:##(string) x P:##
+
+                std::stringstream long_txt;
+                long_txt<<type;
+                long_txt<<" D: "<<out.str().substr(4,2)<<" ";
+                long_txt<<I;
+                long_txt<<" M: "<<M.str()<<"("<<get_message(M.str()) <<") x";
+                long_txt<<" P: "<<P;
+                if (M.str()=="40"){
+                    long_txt<<"("<<get_page_list(P) <<")";
+                }
+
 
 			std::stringstream ss;
 
 			AddResultString( "Id" );
 
-            ss << number_str;
+            ss << short_txt.str();
 			AddResultString( ss.str().c_str() );
 			ss.str("");
 
-            number= conversion (numbers);
-            number_str = number.str();
-            ss << number_str;
+            ss << medium_txt.str;
             AddResultString( ss.str().c_str() );
             ss.str("");
 
 			if( frame.HasFlag( REMOTE_FRAME ) == false )
 			{
-					ss <<number_str;
+					ss <<long_text.str();
 			}else
 			{
-					ss << "Extended CAN Identifier: " << number_str << " (RTR)";
+					ss << "Extended CAN Identifier: " << long_text.str() << " (RTR)";
 			}
 
 			AddResultString( ss.str().c_str() );}
