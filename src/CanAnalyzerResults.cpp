@@ -324,16 +324,16 @@ void CanAnalyzerResults::GenerateBubbleText( U64 frame_index, Channel& /*channel
 			AddResultString( ss.str().c_str() );
 			ss.str("");
 
-            ss << medium_txt.str;
+            ss << medium_txt.str();
             AddResultString( ss.str().c_str() );
             ss.str("");
 
 			if( frame.HasFlag( REMOTE_FRAME ) == false )
 			{
-					ss <<long_text.str();
+					ss <<long_txt.str();
 			}else
 			{
-					ss << "Extended CAN Identifier: " << long_text.str() << " (RTR)";
+					ss << "Extended CAN Identifier: " << long_txt.str() << " (RTR)";
 			}
 
 			AddResultString( ss.str().c_str() );}
