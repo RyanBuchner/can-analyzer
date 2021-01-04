@@ -290,7 +290,7 @@ void CanAnalyzerResults::GenerateBubbleText( U64 frame_index, Channel& /*channel
                 std::stringstream M;
                 std::bitset<7> set2(message);
                 M<<std::setfill('0')<<std::setw(2)<<std::hex<<set2.to_ulong();
-                string P;
+                std::string P;
                 P=out.str().substr(8,2);
 
                 std::stringstream short_txt;
@@ -304,8 +304,6 @@ void CanAnalyzerResults::GenerateBubbleText( U64 frame_index, Channel& /*channel
                 medium_txt<<I;
                 medium_txt<<" M: "<<M.str();
                 medium_txt<<" P: "<<P;
-
-                TT D:## M:##(string) x P:##
 
                 std::stringstream long_txt;
                 long_txt<<type;
