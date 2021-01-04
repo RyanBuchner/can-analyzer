@@ -6,6 +6,7 @@
 #include <sstream>
 #include <bitset>
 #include <iomanip>
+#include <cmath>
 
 #pragma warning(disable: 4800) //warning C4800: 'U64' : forcing value to bool 'true' or 'false' (performance warning)
 
@@ -183,6 +184,35 @@ std::string GetBinaryStringFromHexString (std::string sHex){
     return sReturn;
 }
 
+std::string GetDecimalStringFromHexString (std::string sHex){ //no 0x
+    std::string sReturn;
+    int outnum=0;
+    for (int i = sHex.length (); i >0; i--)
+    {
+        switch (sHex [i])
+        {
+            case '0': outnum+=0*pow(16,i); break;
+            case '1': outnum+=1*pow(16,i); break;
+            case '2': outnum+=2*pow(16,i); break;
+            case '3': outnum+=3*pow(16,i); break;
+            case '4': outnum+=4*pow(16,i); break;
+            case '5': outnum+=5*pow(16,i); break;
+            case '6': outnum+=6*pow(16,i); break;
+            case '7': outnum+=7*pow(16,i); break;
+            case '8': outnum+=8*pow(16,i); break;
+            case '9': outnum+=9*pow(16,i); break;
+            case 'A': outnum+=10*pow(16,i); break;
+            case 'B': outnum+=11*pow(16,i); break;
+            case 'C': outnum+=12*pow(16,i); break;
+            case 'D': outnum+=13*pow(16,i); break;
+            case 'E': outnum+=14*pow(16,i); break;
+            case 'F': outnum+=15*pow(16,i); break;
+        }
+    }
+    sReturn=to_string(outnum)
+    return sReturn;
+}
+
 std::string MessageType(const std::string input){
     std::string output;
     if (input=="00"){output="RD";}
@@ -295,19 +325,19 @@ void CanAnalyzerResults::GenerateBubbleText( U64 frame_index, Channel& /*channel
 
                 std::stringstream short_txt;
                 short_txt<<type;
-                short_txt<<" D: "<<out.str().substr(4,2)<<" ";
+                short_txt<<" D: "<<GetDecimalStringFromHexString (out.str().substr(4,2))<<" ";
                 short_txt<<" M: "<<M.str();
 
                 std::stringstream medium_txt;
                 medium_txt<<type;
-                medium_txt<<" D: "<<out.str().substr(4,2)<<" ";
+                medium_txt<<" D: "<<GetDecimalStringFromHexString (out.str().substr(4,2))<<" ";
                 medium_txt<<I;
                 medium_txt<<" M: "<<M.str();
                 medium_txt<<" P: "<<P;
 
                 std::stringstream long_txt;
                 long_txt<<type;
-                long_txt<<" D: "<<out.str().substr(4,2)<<" ";
+                long_txt<<" D: "<<GetDecimalStringFromHexString (out.str().substr(4,2))<<" ";
                 long_txt<<I;
                 long_txt<<" M: "<<M.str()<<"("<<get_message(M.str()) <<") x";
                 long_txt<<" P: "<<P;
