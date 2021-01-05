@@ -209,7 +209,7 @@ std::string GetDecimalStringFromHexString (std::string sHex){ //no 0x
             case 'F': outnum+=15*pow(16,i); break;
         }
     }
-    sReturn=to_string(outnum)
+    sReturn=std::to_string(outnum);
     return sReturn;
 }
 
